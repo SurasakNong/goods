@@ -44,7 +44,7 @@ function show_rec_prod(){ //========================== แสดงค้นห�
                     </div>  
                     <div class="col-md-4 mb-2"> 
                         <div class="input-group">
-                            <input type="text" id="scan_prod" name="scan_prod" class="form-control" style="background-color:#fafadc; text-transform:uppercase;" placeholder="สแกนรหัส.." onkeyup="scanCode()">
+                            <input type="text" id="scan_prod" name="scan_prod" class="form-control" style="background-color:#fafadc; text-transform:uppercase;" placeholder="สแกนรหัส.." onkeydown="scanCode()">
                             <button class="btn btn-primary" id="bt_add_rec" name="bt_add_rec" type="button" title="เพิ่มข้อมูล"><i class="fas fa-plus"></i></button>
                         </div>
                     </div>
@@ -181,15 +181,18 @@ function showrectable(per,p){ //======================== แสดงตาร�
 }
 
 function scanCode(){
+
     var datascan = document.getElementById('scan_prod');
-    if(datascan.value.length == 9){
+    
+    if(datascan.value.length >= 9){
       if(u_type > 0){
         scan_add();  
       }else{
         swalertshow("warning","ไม่ได้รับอนุญาติ","สิทธิการใช้งานของคุณคือเข้าดูข้อมูลอย่างเดียว" );
         var sel = document.getElementById("scan_prod");
+        sel.value = "";
         sel.focus();
-        sel.select();
+        //sel.select();
       }
     }
 }
@@ -420,8 +423,9 @@ function scan_add(){
             success: function(res) {              
               showrectable(rowperpage,page_sel);
               var sel = document.getElementById("scan_prod");
+              sel.value="";  
               sel.focus();
-              sel.select();              
+              //sel.select();              
             },
             error: function(xhr, resp, text) {
                 if (xhr.responseJSON.message == "Not found code.") {
