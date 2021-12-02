@@ -1,0 +1,179 @@
+    * {
+      margin:0;
+      padding:0;
+      font-family:Arial, "times New Roman", tahoma;
+      font-size:11px;
+
+
+    }
+    html {
+      font-family:Arial, "times New Roman", tahoma;
+      font-size:11px;
+      color:#000000;
+
+    }
+    body {
+      font-family:Arial, "times New Roman", tahoma;
+      font-size:11px;
+      padding:0;
+      margin:0;
+      color:#000000;
+      background-color:white;
+    }
+    .headTitle {
+      font-size:22px;
+      font-weight:bold;
+
+    }
+
+    .headTitle2 {
+      font-size:14px;
+      /*font-weight:bold;*/
+
+    }
+
+    .t_lite{      
+      border-top:1px solid #000;      
+      height:14px;
+      padding:3px 2px 0 2px;
+    }
+    .r_lite{      
+      border-right:1px solid #000;    
+      height:14px;
+      padding:3px 2px 0 2px;   
+    }
+    .b_lite{      
+      border-bottom:1px solid #000;  
+      height:14px;
+      padding:3px 2px 0 2px;    
+    }
+    .l_lite{      
+      border-left:1px solid #000;   
+      height:14px;
+      padding:3px 2px 0 2px; 
+    }
+    .tl_lite{
+      border-top:1px solid #000; 
+      border-left:1px solid #000; 
+      height:14px;
+      padding:3px 2px 0 2px;
+    }
+    .tlb_lite{
+      border-top:1px solid #000; 
+      border-left:1px solid #000; 
+      border-bottom:1px solid #000;
+      height:14px;
+      padding:3px 2px 0 2px;
+    }
+    .ttlb_lite{
+      border-top:2px solid #000; 
+      border-left:1px solid #000; 
+      border-bottom:1px solid #000;
+      height:16px;
+      padding:4px 2px 0 2px;
+    }
+    .dtlb_lite{
+      border-top:1px solid #000; 
+      border-left:1px solid #000; 
+      border-bottom:2px double #000;
+      height:14px;
+      padding:3px 2px 0 2px;
+    }
+
+    .tlbr_lite{
+      border-top:1px solid #000; 
+      border-left:1px solid #000; 
+      border-bottom:1px solid #000;
+      border-right:1px solid #000; 
+      height:14px;
+      padding:3px 2px 0 2px;
+    }
+    .ttlbr_lite{
+      border-top:2px solid #000; 
+      border-left:1px solid #000; 
+      border-bottom:1px solid #000;
+      border-right:1px solid #000; 
+      height:16px;
+      padding:4px 2px 0 2px;
+    }
+    .dtlbr_lite{
+      border-top:1px solid #000; 
+      border-left:1px solid #000; 
+      border-bottom:2px double #000;
+      border-right:1px solid #000; 
+      height:14px;
+      padding:3px 2px 0 2px;
+    }
+
+    .lb_lite{      
+      border-left:1px solid #000;    
+      border-bottom:1px solid #000;   
+      height:14px;
+      padding:3px 2px 0 2px;
+      
+    }
+    .lb_bold{      
+      border-left:1px solid #000;    
+      border-bottom:2px solid #000;   
+      height:14px;
+      padding:3px 2px 0 2px;
+      
+    }
+    .lbr_lite{      
+      border-left:1px solid #000;    
+      border-bottom:1px solid #000;   
+      border-right:1px solid #000; 
+      height:14px;
+      padding:3px 2px 0 2px;
+    }
+    .lbr_bold{      
+      border-left:1px solid #000;    
+      border-bottom:2px solid #000;   
+      border-right:1px solid #000; 
+      height:14px;
+      padding:3px 2px 0 2px;
+    }
+
+    .tb_bold{
+      border-top:2px solid #000; 
+      border-bottom:2px solid #000;
+      height:18px;
+      padding:3px 2px 0 2px;
+    }
+    .tb_bold_2{
+      /*border-top:2px solid #000; */
+      border-bottom:1px solid #000;
+      height:16px;
+      font-weight: bold;
+      padding:4px 2px 0 2px;
+    }
+    .nm{
+      height:14px;
+      padding:3px 2px 0 2px;
+    }
+
+    .FooterR {
+      font-size:14px;
+    }
+
+
+
+
+    /* สำหรับช่องกรอกข้อมูล  */
+    .box_data1 {
+      font-family:Arial, "times New Roman", tahoma;
+      height:18px;
+      border:0px dotted #333333;
+      border-bottom-width:1px;
+    }
+
+    /* สร้างช่องสี่เหลี่ยมสำหรับเช็คเลือก */
+    .chk_box {
+      display:block;
+      width:10px;
+      height:10px;
+      overflow:hidden;
+      border:1px solid #000;
+    }
+
+    
