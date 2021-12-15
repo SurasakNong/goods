@@ -17,7 +17,7 @@ function showHome() {  //==================================== show home page
   $.post("api/validate_token.php", JSON.stringify({ jwt: jwt }))
       .done(function (result) {
       u_type = result.data.type;
-      var dp_name = result.data.departname;
+      var dp_name = result.data.departname;      
       var nm_type="";
       if(u_type == 2){
         nm_type = "ผู้ดูแลระบบ"
@@ -29,6 +29,8 @@ function showHome() {  //==================================== show home page
 
       u_name = result.data.firstname +" "+ result.data.lastname;
       u_id = result.data.id;      
+      u_depart = result.data.depart;
+
       $("#myMenu").show();
       $("#B_logout").show();  
       $("#content").html("");
@@ -77,7 +79,7 @@ function showLoginPage() {  //==================== show login page
             <button class="btn btn-lg btn-primary btn-block mb-4 mt-3" type="submit" name="submit" >Login</button>
 
             <p class="mt-4 mb-3 text-muted">&copy; FG&P : Finished Goods and Packaging @2021</p>
-            <a class="mt-4 mb-3 text-muted">[ Version : 2111-1515 ]</a>
+            <a class="mt-4 mb-3 text-muted">[ Version : 2112-1510 ]</a>
           </form>
         </div>
     

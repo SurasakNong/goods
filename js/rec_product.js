@@ -93,7 +93,7 @@ function show_rec_prod(){ //========================== แสดงค้นห�
         datepicker: true,
         format: 'd/m/Y',
         value:today,
-        mask: true
+        mask: true 
     } );
 
     let dropdown = $('#dp_rec');
@@ -107,7 +107,8 @@ function show_rec_prod(){ //========================== แสดงค้นห�
                   success: function(result){
                     $.each(result, function (key, entry) {
                       dropdown.append($('<option></option>').attr('value', entry.id_depart).text(entry.depart));
-                    })                             
+                    })  
+                    $("#dp_rec option[value='"+u_depart+"']").attr("selected","selected");                             
                   }
                 });  
 
