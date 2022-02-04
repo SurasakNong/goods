@@ -62,7 +62,7 @@ function setCookie(cname, cvalue, exdays) {
   function Signed(icon,title) {
     const Toast = Swal.mixin({
         toast: true,
-        position: 'bottom',
+        position: 'center',
         width: '16rem',
         showConfirmButton: false,
         timer: 2300,
@@ -203,4 +203,16 @@ function to_Ymd(dmY){ //เปลี่ยนรูปแบบวันที�
 function to_dmY(Ymd){ //เปลี่ยนรูปแบบวันที่จาก 2021-04-31 ==> 31/04/2021
   let myarr = Ymd.split("-");
   return myarr[2]+"/"+myarr[1]+"/"+myarr[0];
+}
+
+function addCommas(nStr){ // ใส่คอมม่าให้ตัวเลข
+	nStr += '';
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
 }

@@ -3,7 +3,8 @@ function show_rec_prod(){ //========================== แสดงค้นห�
     var html = `
   <div class="container animate__animated animate__fadeIn">
     <div class="row">                
-        <div class="col-lg-8 mx-auto mt-1">
+        <div class="col-lg-10 mx-auto mt-1">
+        <h4 style="color:#ffff; text-align: center; text-shadow: 2px 2px #0d470c, 3px 2px #0d470c; background-color:#388752; padding: 8px 0; border-radius: 20px 20px 0 0;">บันทึกรับเข้า</h4>
             <form id="fmrec_prod">
                 <div class="row">    
                     <div class="col-md-6 mb-2">
@@ -63,7 +64,7 @@ function show_rec_prod(){ //========================== แสดงค้นห�
         </div>
     </div>   
     <div class="row">  
-        <div class="col-lg-8 mx-auto" id="table_rec_prod"></div>
+        <div class="col-lg-10 mx-auto" id="table_rec_prod"></div>
     </div>
 
     <div id="edit_data">
@@ -138,20 +139,23 @@ function showrectable(per,p){ //======================== แสดงตาร�
   var dppost = document.getElementById('dp_post').value;         
   var jwt = getCookie("jwt");
   var i = ((p-1)*per);
+  const wait_msg =`<div class="my_loading" align="center"><br><i class="fas fa-spinner fa-pulse fa-2x"></i>&nbsp;&nbsp; กำลังโหลดข้อมูล.....</div> `;
+    $("#table_rec_prod").html(wait_msg); 
   $.ajax({
     type: "POST", 
-    url: "api/data_rec_product.php",
+    url: "api/data_rec_product.php", 
     data: {daterec:daterec,bill:bill,dp_rec:dprec,dp_post:dppost,search:ss,perpage:per,page:p,jwt:jwt},
     success: function(result){
       var tt=`
       <table class="list-table table animate__animated animate__fadeIn" id="recprodtable" >
         <thead>
-          <tr>
+          <tr style="background-color:#acf7e2;">
             <th class="text-center" style="width:5%">ลำดับ</th> 
             <th class="text-start">Code</th>
             <th class="text-start"><a id="summary">สเปค1</a></th>         
-            <th class="text-start">ประเภท</th>     
-            <th class="text-center">ผืน</th>    
+            <th class="text-start">ประเภท</th>   
+            <th class="text-end">ก.ก.</th>   
+            <th class="text-end">ผืน</th>    
             <th class="text-center">ลบ</th>        
           </tr>
         </thead>
@@ -161,12 +165,12 @@ function showrectable(per,p){ //======================== แสดงตาร�
       <div class="mb-3" id="pagination">
       `;              
       $("#table_rec_prod").html(tt);      
-      pagination_show(p,result.page_all,per,'showrectable'); //<<<<<<<< แสดงตัวจัดการหน้าข้อมูล Pagination >>const.js
+      pagination_show(p,result.page_all,per,'showrectable'); //<<<< แสดงตัวจัดการหน้าข้อมูล Pagination >>const.js
       $.each(result.data, function (key, entry) {
         i++;
         listrecTable(entry,i); //<<<<< แสดงรายการทั้งหมด             
       });   
-      var txtsum = (result.list_all == 0)?"สเปค":"ทั้งหมด "+result.list_all+" รายการ/ "+result.pcs_all+ " ผืน";      
+      var txtsum = +result.list_all+" รายการ ( "+addCommas(result.pcs_all)+ " ผืน/ "+addCommas((result.kg_all).toFixed(2))+ " ก.ก. )";      
       $("#summary").text(txtsum);    
     },
     error: function(xhr, resp, text) {
@@ -182,9 +186,7 @@ function showrectable(per,p){ //======================== แสดงตาร�
 }
 
 function scanCode(){
-
-    var datascan = document.getElementById('scan_prod');
-    
+    const datascan = document.getElementById('scan_prod');    
     if(datascan.value.length >= 9){
       if(u_type > 0){
         scan_add();  
@@ -209,10 +211,9 @@ function listrecTable(ob,i){  //=========================== ฟังก์ช�
     if(u_type > 0){
       txtDel = `<i class="fas fa-trash-alt" onclick="delete_rec_Row(` + ob.id_rec + `)" style="cursor:pointer; color:#d9534f;"></i>`;
       set_value = ` onmouseover="edit_data(this.id);" style="text-decoration:none; cursor:pointer;" `;
-    }
-    
+    }   
 
-    let n_col = 6;
+    let n_col = 7;
     let col = [];
     for(let ii=0; ii<n_col; ii++){
       col[ii] = row.insertCell(ii);
@@ -221,7 +222,8 @@ function listrecTable(ob,i){  //=========================== ฟังก์ช�
     col[1].innerHTML = `<div id="code` + ob.id_rec + `" class="text-start">`+ob.code+`</div>`;
     col[2].innerHTML = `<div id="spec` + ob.id_rec + `" class="text-start">`+ob.spec+`</div>`;
     col[3].innerHTML = `<div id="searchtxt` + ob.id_rec + `" class="text-start">`+ob.search+`</div>`;
-    col[4].innerHTML = `<div class="text-center"><a id="pcs-` + ob.id_rec + `" `+set_value+` >`+ob.pcs+`</a></div>`;
+    col[4].innerHTML = `<div id="kg` + ob.id_rec + `" class="text-end">`+(ob.wt*ob.pcs).toFixed(2)+`</div>`;
+    col[5].innerHTML = `<div class="text-end"><a id="pcs-` + ob.id_rec + `" `+set_value+` >`+ob.pcs+`</a></div>`;
     col[n_col-1].innerHTML = `
     <input type="hidden" id="id_rec` + ob.id_rec + `" name="id_rec` + ob.id_rec + `" value="` + ob.id_rec + `" />
     `+txtDel; 

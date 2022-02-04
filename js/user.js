@@ -79,7 +79,7 @@ function showLoginPage() {  //==================== show login page
             <button class="btn btn-lg btn-primary btn-block mb-4 mt-3" type="submit" name="submit" >Login</button>
 
             <p class="mt-4 mb-3 text-muted">&copy; FG&P : Finished Goods and Packaging @2021</p>
-            <a class="mt-4 mb-3 text-muted">[ Version : 2112-1510 ]</a>
+            <a class="mt-4 mb-3 text-muted">[ Version : 2202-1116 ]</a>
           </form>
         </div>
     

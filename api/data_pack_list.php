@@ -20,16 +20,18 @@ $database = new Database();
 $db = $database->getConnection();
 $sql = "";
 $data = json_decode(file_get_contents("php://input"));
-if(!empty($data->jwt)){
+$jwt = $data->jwt;
+if(!empty($jwt)){
     try{
-        $decoded = JWT::decode($data->jwt, $key, array('HS256'));   // ถอดรหัส jwt   
-            $perpage = (int)$data->perpage > 0? (int)$data->perpage:10;
-            $page = (int)$data->perpage > 0? (int)$data->perpage:1;
-            $search = $data->search;
-            $search = htmlspecialchars(strip_tags($search));
+        $decoded = JWT::decode($jwt, $key, array('HS256'));   // ถอดรหัส jwt  
+            $bag_id = $data->bag_id;
+
+            $perpage = $data->perpage;
+            $page = $data->page;
             $rowStart = ($page-1)*$perpage;
+
             // ข้อมูลที่ต้องการให้แสดง
-            $sql = "SELECT * FROM product WHERE ( CONCAT(code,' ',dia,' ',color,' ',knot,' ',ms,ms_unit,'x',md,md_unit,'x',ml,ml_unit,' ',label,' ',search) LIKE '%".$search."%') ORDER BY code ASC LIMIT $rowStart , $perpage";
+            $sql = "SELECT pack_bag_list.*,CONCAT(dia,' ',color,' ',knot,' ',ms,ms_unit,'x',md,md_unit,'x',ml,ml_unit,' ',label) AS list_desc FROM pack_bag_list INNER JOIN product ON list_nt = CODE WHERE bag_id = $bag_id ORDER BY list_id DESC LIMIT $rowStart , $perpage";
                 $stmt = $db->prepare( $sql );  
                 $stmt->execute();
                 $num = $stmt->rowCount();   
@@ -37,16 +39,25 @@ if(!empty($data->jwt)){
                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     array_push($resultArray,$row);
                 }        // จำนวนข้อมูลทั้งหมด
-                    $sql2 = "SELECT * FROM product WHERE CONCAT(code,' ',dia,' ',color,' ',knot,' ',ms,ms_unit,'x',md,md_unit,'x',ml,ml_unit,' ',label,' ',search) LIKE '%".$search."%'";
+                    $sql2 = "SELECT pack_bag_list.*,CONCAT(dia,' ',color,' ',knot,' ',ms,ms_unit,'x',md,md_unit,'x',ml,ml_unit,' ',label) AS list_desc FROM pack_bag_list INNER JOIN product ON list_nt = CODE WHERE bag_id = $bag_id";
                     $stmt2 = $db->prepare( $sql2 );   
                     $stmt2->execute();
                    $numall = $stmt2->rowCount();  
+                   $pcs_all = 0;
+                   $kg_all = 0;
+                   while($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+                    $pcs_all += $row2["list_pcs"];
+                    $kg_all += $row2["list_kg"];
+                    }
                 $allpage = ceil($numall/$perpage);
                 $database = null; 
                 echo json_encode(
                     array(
                         "data" => $resultArray,
-                        "page_all" => $allpage
+                        "page_all" => $allpage,
+                        "pcs_all" => $pcs_all,
+                        "kg_all" => $kg_all,
+                        "list_all" => $numall
                     )
                 );    
         

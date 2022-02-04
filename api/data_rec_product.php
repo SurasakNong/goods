@@ -32,6 +32,23 @@ if(!empty($jwt)){
             $search = isset($_POST['search'])?$_POST['search']:"";
             $search = htmlspecialchars(strip_tags($search));
             $rowStart = ($page-1)*$perpage;
+
+            // คำค้นหา
+            $concat = " (
+                CONCAT(receive.code,' ',dia,' ',color,' ',knot,' ',ms,ms_unit,'x',md,md_unit,'x',ml,ml_unit,' ',label,' ',search) LIKE '%";
+                $concat_set = "";
+                if($search != ''){
+                    $search_ex = explode(" ",$search);
+                    $search_count = count($search_ex);                
+                    for($i=0; $i<$search_count; $i++){
+                        $concat_set = $concat_set.$concat.$search_ex[$i]."%')";
+                        if($i < ($search_count-1)){
+                            $concat_set = $concat_set." AND ";
+                        }
+                    }
+                    $concat_set = "AND (".$concat_set.")";  
+                }
+
             // ข้อมูลที่ต้องการให้แสดง            
             $sql = "SELECT receive.*,CONCAT(dia,' ',color,' ',knot,' ',ms,ms_unit,'x',md,md_unit,'x',ml,ml_unit,' ',label) AS spec, product.search, product.pcs AS pcs_std,product.wt AS wt_std FROM receive INNER JOIN product ON receive.code = product.code  WHERE ((date_rec = '$daterec') AND (bill_rec = '$billrec' AND dp_rec = $dprec AND dp_post = $dppost) AND CONCAT(receive.code,' ',dia,' ',color,' ',knot,' ',ms,ms_unit,'x',md,md_unit,'x',ml,ml_unit,' ',label,' ',search) LIKE '%".$search."%') ORDER BY id_rec DESC LIMIT $rowStart , $perpage";
                 $stmt = $db->prepare( $sql );  
@@ -42,13 +59,15 @@ if(!empty($jwt)){
                     array_push($resultArray,$row);
                 }        // จำนวนข้อมูลทั้งหมด ที่แสดงในตาราง
 
-                    $pcs_all = 0;                    
+                    $pcs_all = 0;       
+                    $kg_all = 0;             
                     $sql2 = "SELECT receive.*,CONCAT(dia,' ',color,' ',knot,' ',ms,ms_unit,'x',md,md_unit,'x',ml,ml_unit,' ',label) AS spec, product.search, product.pcs AS pcs_std,product.wt AS wt_std FROM receive INNER JOIN product ON receive.code = product.code  WHERE ((date_rec = '$daterec') AND (bill_rec = '$billrec' AND dp_rec = $dprec AND dp_post = $dppost) AND CONCAT(receive.code,' ',dia,' ',color,' ',knot,' ',ms,ms_unit,'x',md,md_unit,'x',ml,ml_unit,' ',label,' ',search) LIKE '%".$search."%')";
                     $stmt2 = $db->prepare( $sql2 );   
                     $stmt2->execute();
                     $numall = $stmt2->rowCount();  
                     while($row2 = $stmt2->fetch(PDO::FETCH_ASSOC)) {
                         $pcs_all += $row2["pcs"];
+                        $kg_all += ($row2["pcs"]*$row2["wt"]);
                     }
                 $allpage = ceil($numall/$perpage);
                 $database = null; 
@@ -57,6 +76,7 @@ if(!empty($jwt)){
                         "data" => $resultArray,
                         "page_all" => $allpage,
                         "pcs_all" => $pcs_all,
+                        "kg_all" => $kg_all,
                         "list_all" => $numall
                     )
                 );    

@@ -14,7 +14,7 @@ function show_frmRep(){ //==================== เลือกรายงาน
                             <div class="input-group-text" style="width: 60px; background-color: aquamarine;">วันที่</div>
                             <input type="text" class="form-control" name="datefm" id="picker_rep">
                         </div>
-                    </div>    
+                    </div>   
                     <div class="col-md-6 mb-2">
                         <div class="input-group">
                             <div class="input-group-text" style="width: 60px; background-color: aquamarine;">ถึง</div>
@@ -48,8 +48,10 @@ function show_frmRep(){ //==================== เลือกรายงาน
                     <div class="input-group mb-2 col-md-12">
                         <label for="selrep">เลือก :&nbsp;&nbsp;</label>
                         <select class="fmsel form-control mb-2" size="4" id="selrep" name="selrep">
-                            <option value="report/rep_receive_data">1.) รายการรับเข้า</option>
-                            <option value="report/rep_receive_sum">2.) สรุปการรับเข้า</option>                       
+                            <option value="report/rep_receive_data">1.) การรับเข้า</option>
+                            <option value="report/rep_receive_sum">2.) สรุปการรับเข้า</option>     
+                            <option value="report/rep_pack_data">3.) การบรรจุ</option>   
+                                                 
                         </select>
                     </div>
 
@@ -103,7 +105,9 @@ function show_frmRep(){ //==================== เลือกรายงาน
                 success: function(result){
                 $.each(result, function (key, entry) {
                     dropdown.append($('<option></option>').attr('value', entry.id_depart).text(entry.depart));
-                })                             
+                })  
+                $("#dp_rec_rep option[value='"+u_depart+"']").attr("selected","selected");  
+                document.getElementById('dpsel_rec_rep').value = $("#dp_rec_rep option:selected").text();           
                 }
             });  
 
