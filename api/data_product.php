@@ -20,24 +20,42 @@ $database = new Database();
 $db = $database->getConnection();
 $sql = "";
 $data = json_decode(file_get_contents("php://input"));
-if(!empty($data->jwt)){
+$jwt = $data->jwt;
+if(!empty($jwt)){
     try{
-        $decoded = JWT::decode($data->jwt, $key, array('HS256'));   // ถอดรหัส jwt   
-            $perpage = (int)$data->perpage > 0? (int)$data->perpage:10;
-            $page = (int)$data->perpage > 0? (int)$data->perpage:1;
+        $decoded = JWT::decode($jwt, $key, array('HS256'));   // ถอดรหัส jwt  
+            $perpage = $data->perpage;
+            $page = $data->page;
             $search = $data->search;
             $search = htmlspecialchars(strip_tags($search));
             $rowStart = ($page-1)*$perpage;
+
+            // คำค้นหา
+            $concat = " (
+                CONCAT(code,' ',dia,' ',color,' ',knot,' ',ms,ms_unit,'x',md,md_unit,'x',ml,ml_unit,' ',label,' ',search) LIKE '%";
+                $concat_set = "";
+                if($search != ''){
+                    $search_ex = explode(" ",$search);
+                    $search_count = count($search_ex);                
+                    for($i=0; $i<$search_count; $i++){
+                        $concat_set = $concat_set.$concat.$search_ex[$i]."%')";
+                        if($i < ($search_count-1)){
+                            $concat_set = $concat_set." AND ";
+                        }
+                    }
+                    $concat_set = " (".$concat_set.")";  
+                }
+
             // ข้อมูลที่ต้องการให้แสดง
-            $sql = "SELECT * FROM product WHERE ( CONCAT(code,' ',dia,' ',color,' ',knot,' ',ms,ms_unit,'x',md,md_unit,'x',ml,ml_unit,' ',label,' ',search) LIKE '%".$search."%') ORDER BY code ASC LIMIT $rowStart , $perpage";
+            $sql = "SELECT * FROM product WHERE ($concat_set) ORDER BY code ASC LIMIT $rowStart , $perpage";
                 $stmt = $db->prepare( $sql );  
                 $stmt->execute();
                 $num = $stmt->rowCount();   
-                $resultArray = array();
+                $resultArray = array(); 
                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     array_push($resultArray,$row);
                 }        // จำนวนข้อมูลทั้งหมด
-                    $sql2 = "SELECT * FROM product WHERE CONCAT(code,' ',dia,' ',color,' ',knot,' ',ms,ms_unit,'x',md,md_unit,'x',ml,ml_unit,' ',label,' ',search) LIKE '%".$search."%'";
+                    $sql2 = "SELECT * FROM product WHERE $concat_set";
                     $stmt2 = $db->prepare( $sql2 );   
                     $stmt2->execute();
                    $numall = $stmt2->rowCount();  

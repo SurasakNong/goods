@@ -38,14 +38,14 @@ function showprodtable(per,p){ //======================== แสดงตาร�
         obj.perpage = per;
         obj.page = p;
         obj.jwt = jwt;
-        const data = JSON.stringify(obj);
+        const mydata = JSON.stringify(obj);
         const wait_msg =`<div class="my_loading" align="center"><br><i class="fas fa-spinner fa-pulse fa-2x"></i>&nbsp;&nbsp; กำลังโหลดข้อมูล.....</div> `;
         $("#table_prod").html(wait_msg); 
   $.ajax({
     type: "POST", 
     url: "api/data_product.php",
     //data: {search:ss,perpage:per,page:p,jwt:jwt},
-    data: data,
+    data: mydata,
     success: function(result){
       var tt=`
       <table class="list-table table animate__animated animate__fadeIn" id="prodtable" >

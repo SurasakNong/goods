@@ -36,8 +36,8 @@ function show_rec_prod(){ //========================== แสดงค้นห�
                 </div>
 
                 <div class="row"> 
-                    <div class="col-md-4 mb-2"> 
-                        <div class="input-group">
+                    <div class="col-md-4 mb-2" style="display: flex; justify-content: center;"> 
+                        <div class="input-group" style="width:180px;">
                             <input class="form-check-input" style="margin-top:12px;" type="checkbox" value="1" id="pcs_ck" name="pcs_ck">
                             <label class="form-check-label pt-2 me-3" for="pcs_ck">&nbsp;ระบุผืน&nbsp;</label>                        
                             <input type="number" id="pcs_num" name="pcs_num" class="form-control" min="1" max="100" step="1" value="1">                            

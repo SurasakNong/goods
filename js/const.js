@@ -63,9 +63,9 @@ function setCookie(cname, cvalue, exdays) {
     const Toast = Swal.mixin({
         toast: true,
         position: 'center',
-        width: '16rem',
+        width: '17rem',
         showConfirmButton: false,
-        timer: 2300,
+        timer: 2500,
         timerProgressBar: true,
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
