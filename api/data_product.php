@@ -33,7 +33,7 @@ if(!empty($jwt)){
             // คำค้นหา
             $concat = " (
                 CONCAT(code,' ',dia,' ',color,' ',knot,' ',ms,ms_unit,'x',md,md_unit,'x',ml,ml_unit,' ',label,' ',search) LIKE '%";
-                $concat_set = "";
+                $concat_set = "1";
                 if($search != ''){
                     $search_ex = explode(" ",$search);
                     $search_count = count($search_ex);                
